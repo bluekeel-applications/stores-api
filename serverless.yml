@@ -2,6 +2,7 @@ service: stores-api
 
 plugins:
   - serverless-offline
+  - serverless-dotenv-plugin
 
 custom:
   allowedHeaders:

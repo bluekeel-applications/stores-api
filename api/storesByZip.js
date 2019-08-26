@@ -1,30 +1,29 @@
 /**
  * Route: GET /zip
  */
-
+const axios = require('axios');
 const AWS = require('aws-sdk');
 AWS.config.update({ region: 'us-east-1' });
 
 const util = require('./util.js');
 
-const getStoreList = (zip) => {
-    return new Promise(resolve => {
-        console.log('connected:');
-        resolve(zip);
-    });
-    //Run query to Bestbuy for store list and resolve
-};
+const urlBase = 'https://api.bestbuy.com/v1/stores(area(';
+const urlButt = ',50))?format=json&show=storeId,longName,name,phone,distance,address,address2,city,region,postalCode&pageSize=5&apiKey='
+const apiKey = process.env.BESTBUY_PRODUCTS_API_KEY;
 
 exports.handler = async (event) => {
     try {
-        let zipCode = parseInt(event.pathParameters.zip);
+        let zipCode = event.pathParameters.zip;
+        let url = urlBase + zipCode + urlButt + apiKey;
 
-        let data = await getStoreList(zipCode);
-
+        const response = await axios.get(url);
+        
         return {
             statusCode: 200,
             headers: util.getResponseHeaders(),
-            body: JSON.stringify(data)
+            body: JSON.stringify({
+                stores: response.data.stores
+            })
         };
     } catch (err) {
         console.log('Error:', err);
