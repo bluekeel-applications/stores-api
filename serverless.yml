@@ -2,7 +2,6 @@ service: stores-api
 
 plugins:
   - serverless-offline
-  - serverless-domain-manager
 
 custom:
   allowedHeaders:
@@ -15,20 +14,11 @@ custom:
     - X-Amz-Security-Token
     - X-Amz-User-Agent
   stage: ${opt:stage, self:provider.stage}
-  domains:
-    prod: stores.buyontrust.com
-    dev: dev-stores.buyontrust.com
-  customDomain:
-    basePath: ""
-    domainName: ${self:custom.domains.${self:custom.stage}}
-    stage: "${self:custom.stage}"
-    certificateName: buyontrust.com
-    createRoute53Record: true
 
 provider:
   name: aws
   runtime: nodejs10.x
-  stage: dev
+  stage: prod
   profile: buyontrust
   region: us-east-1
   memorySize: 128
