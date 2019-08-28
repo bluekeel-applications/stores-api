@@ -40,8 +40,8 @@ exports.handler = async (event) => {
                         crossStreet: store.location,
                         postalCode: store.postalCode,
                         state: store.region,
-                        storeId: store.storeId,
-                        distance: store.distance
+                        storeId: store.storeId.toString(),
+                        distance: store.distance.toString()
                     }
                 }
                 featureArray.push(storeGeoJson);
