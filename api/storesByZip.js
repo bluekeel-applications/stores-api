@@ -28,9 +28,12 @@ exports.handler = async (event) => {
                     type: 'Feature',
                     geometry: {
                         type: 'Point',
-                        coordinates: [store.lat, store.lng]
+                        coordinates: [store.lng, store.lat]
                     },
                     properties: {
+                        name: store.name,
+                        longName: store.longName,
+                        storeType: store.storeType,
                         phoneFormatted: formattedPhone(store.phone),
                         phone: store.phone,
                         address: store.address,
