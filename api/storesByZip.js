@@ -24,32 +24,31 @@ exports.handler = async (event) => {
         let featureArray = [];
         await axios.get(url).then(res => {
             res.data.stores.forEach((store) => {
-                let storeGeoJson = {
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [store.lng, store.lat]
-					},
-					properties: {
-						name: store.name,
-						longName: store.longName,
-						storeType: store.storeType,
-						phoneFormatted: formattedPhone(store.phone),
-						address: store.address,
-						address2: store.address2,
-						city: store.city,
-						country: store.country,
-						crossStreet: store.location,
-						postalCode: store.postalCode,
-						state: store.region,
-						storeId: store.storeId.toString(),
-						distance: store.distance.toString(),
-						'marker-color': '#13a89e',
-						'marker-size': 'large',
-						'marker-symbol': 'rocket'
-					}
-				};
-                featureArray.push(storeGeoJson);
+                if(store.storeType === 'Big Box') {
+                    let storeGeoJson = {
+                        type: 'Feature',
+                        geometry: {
+                            type: 'Point',
+                            coordinates: [store.lng, store.lat]
+                        },
+                        properties: {
+                            name: store.name,
+                            longName: store.longName,
+                            phoneFormatted: formattedPhone(store.phone),
+                            phone: store.phone,
+                            address: store.address,
+                            address2: store.address2,
+                            city: store.city,
+                            country: store.country,
+                            crossStreet: store.location,
+                            postalCode: store.postalCode,
+                            state: store.region,
+                            storeId: store.storeId.toString(),
+                            distance: store.distance.toString()
+                        }
+                    };
+                    featureArray.push(storeGeoJson);
+                }
             })
         });
 
